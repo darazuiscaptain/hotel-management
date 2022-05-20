@@ -1,4 +1,5 @@
-﻿using HotelManagementSystem.API.Models;
+﻿using HotelManagementSystem.API.DTOs;
+using HotelManagementSystem.API.Models;
 using HotelManagementSystem.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ namespace HotelManagementSystem.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Reservation>>> Get()
+        public async Task<ActionResult<IEnumerable<GetReservation>>> Get()
         {
             try
             {

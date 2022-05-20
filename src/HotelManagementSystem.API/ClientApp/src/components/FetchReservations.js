@@ -19,9 +19,9 @@ export class FetchReservations extends Component {
           <tr>
             <th>Guest Name</th>
             <th>Room Number</th>
-            <th>Booked Date</th>
             <th>Check-in Date</th>
             <th>Check-out Date</th>
+            <th>Total Amount</th>
             <th>Number of Guests</th>
           </tr>
         </thead>
@@ -30,9 +30,9 @@ export class FetchReservations extends Component {
             <tr key={reservation.reservationId}>
               <td>{reservation.guestName}</td>
               <td>{reservation.roomNumber}</td>
-              <td>{reservation.reservationDate}</td>
               <td>{reservation.checkInDate}</td>
               <td>{reservation.checkOutDate}</td>
+              <td>{reservation.totalAmount}</td>
               <td>{reservation.numberOfGuests}</td>
             </tr>
           )}

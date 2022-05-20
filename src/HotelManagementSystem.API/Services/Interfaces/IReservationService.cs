@@ -1,4 +1,5 @@
-﻿using HotelManagementSystem.API.Models;
+﻿using HotelManagementSystem.API.DTOs;
+using HotelManagementSystem.API.Models;
 
 namespace HotelManagementSystem.API.Services.Interfaces
 {
@@ -6,8 +7,8 @@ namespace HotelManagementSystem.API.Services.Interfaces
     {
         Guid CreateReservation(Reservation reservation);
         void DeleteReservation(Reservation reservation);
-        Task<IEnumerable<Reservation>> GetAllReservations();
-        Task<Reservation> GetReservationById(Guid reservationId);
+        Task<IEnumerable<GetReservation>> GetAllReservations();
+        Task<GetReservation> GetReservationById(Guid reservationId);
         void UpdateReservation(Reservation reservation);
     }
 }
