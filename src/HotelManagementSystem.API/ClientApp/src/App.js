@@ -6,6 +6,7 @@ import { FetchRooms } from './components/FetchRooms';
 import { FetchReservations } from './components/FetchReservations';
 import { FetchGuests } from './components/FetchGuests';
 import { ReservationForm } from './components/ReservationForm';
+import { GuestForm } from './components/GuestForm';
 
 import './custom.css'
 
@@ -20,6 +21,7 @@ export default class App extends Component {
         <Route path='/fetch-reservations' component={FetchReservations} />
         <Route path='/fetch-guests' component={FetchGuests} />
         <Route path='/reservation-form' component={ReservationForm} />
+        <Route path='/guest-form' component={GuestForm} />
       </Layout>
     );
   }

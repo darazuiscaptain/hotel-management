@@ -32,7 +32,22 @@ namespace HotelManagementSystem.API.Controllers
                 _logger.LogError(ex.ToString());
                 return BadRequest(ex.Message);
             }
+        }
 
+        [HttpPost]
+        public async Task<ActionResult<Guid>> CreateGuest(Guest guest)
+        {
+            try
+            {
+                var guestGuid = _guest.CreateGuest(guest);
+
+                return Ok(guestGuid);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.ToString());
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

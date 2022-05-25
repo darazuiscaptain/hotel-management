@@ -55,7 +55,6 @@ export class FetchGuests extends Component {
     return (
       <div>
         <h1 id="tabelLabel" >Guests</h1>
-        <p>This component demonstrates fetching data from the server.</p>
         {contents}
       </div>
     );

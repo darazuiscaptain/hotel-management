@@ -24,21 +24,26 @@ export class ReservationForm extends Component {
     }
 
     handleSubmit(e) {
-        //alert('A name was submitted: ' + this.state.roomId);
         e.preventDefault();
-        let formData = new FormData();
-        formData.append("GuestId", this.state.guestId);
-        formData.append("RoomId", this.state.roomId);
-        formData.append("CheckInDate", this.state.checkInDate);
-        formData.append("CheckOutDate", this.state.checkOutDate);
-        formData.append("NumberOfAdults", this.state.numberOfAdults);
-        formData.append("NumberOfChildren", this.state.numberOfChildren);
+        
+        let reserve = {
+            GuestId: this.state.guestId,
+            RoomId: this.state.roomId,
+            CheckInDate: this.state.checkInDate,
+            CheckOutDate: this.state.checkOutDate,
+            NumberOfAdults: this.state.numberOfAdults,
+            NumberOfChildren: this.state.numberOfChildren
+        };
 
-        fetch("reservation", {
-            method: "POST",
-            body: formData
+        fetch('reservation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(reserve),
         }).then(response => response.json())
-            .then(data => console.log(data));
+            .then(data => console.log(data))
+            .catch(error => console.log("Error detected: " + error))
     }
 
     render() {
@@ -84,7 +89,7 @@ export class ReservationForm extends Component {
                     Number Of Adults:
                     <input
                         name="numberOfAdults"
-                        type="text"
+                        type="number"
                         checked={this.state.numberOfAdults}
                         onChange={this.handleChange} />
                 </label>
@@ -93,7 +98,7 @@ export class ReservationForm extends Component {
                     Number Of Children:
                     <input
                         name="numberOfChildren"
-                        type="text"
+                        type="number"
                         checked={this.state.numberOfChildren}
                         onChange={this.handleChange} />
                 </label>

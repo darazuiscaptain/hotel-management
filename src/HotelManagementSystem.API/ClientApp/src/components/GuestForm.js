@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Form } from 'reactstrap';
 
 export class GuestForm extends Component {
     constructor(props) {
@@ -33,22 +32,28 @@ export class GuestForm extends Component {
     handleSubmit(e) {
         //alert('A name was submitted: ' + this.state.roomId);
         e.preventDefault();
-        let formData = new FormData();
-        formData.append("FirstName", this.state.firstName);
-        formData.append("LastName", this.state.lastName);
-        formData.append("Address1", this.state.address1);
-        formData.append("Address2", this.state.address2);
-        formData.append("Email", this.state.email);
-        formData.append("Phone", this.state.phone);
-        formData.append("City", this.state.city);
-        formData.append("Country", this.state.country);
-        formData.append("DriverLicense", this.state.driverLicense);
+        
+        let guest = {
+            FirstName: this.state.firstName,
+            LastName: this.state.lastName,
+            Address1: this.state.address1,
+            Address2: this.state.address2,
+            Email: this.state.email,
+            Phone: this.state.phone,
+            City: this.state.city,
+            Country: this.state.country,
+            DriverLicense: this.state.driverLicense
+        };
 
-        fetch("guest", {
-            method: "POST",
-            body: formData
+        fetch('guest', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(guest),
         }).then(response => response.json())
-            .then(data => console.log(data));
+            .then(data => console.log(data))
+            .catch(error => console.log("Error detected: " + error))
     }
 
     render() {
