@@ -25,10 +25,11 @@ namespace HotelManagementSystem.API.Services
                                     ReservationId = reservation.ReservationId,
                                     GuestName = $"{guest.FirstName} {guest.LastName}",
                                     RoomNumber = room.RoomNumber,
-                                    CheckInDate = reservation.CheckInDate,
-                                    CheckOutDate = reservation.CheckOutDate,
+                                    CheckInDate = reservation.GetCheckinDateTime(),
+                                    CheckOutDate = reservation.GetCheckOutDateTime(),
+                                    NumberOfNights = reservation.GetTotalAmountOfDays(),
                                     NumberOfGuests = reservation.NumberOfAdults + reservation.NumberOfChildren,
-                                    TotalAmount = payment.Amount
+                                    TotalAmount = reservation.GetTotalAmountOfDays() * room.PricePerNight
                                 }).AsNoTracking();
 
             return await reservations.ToListAsync();
@@ -46,8 +47,9 @@ namespace HotelManagementSystem.API.Services
                                    ReservationId = res.ReservationId,
                                    GuestName = $"{guest.FirstName} {guest.LastName}",
                                    RoomNumber = room.RoomNumber,
-                                   CheckInDate = res.CheckInDate,
-                                   CheckOutDate = res.CheckOutDate,
+                                   CheckInDate = res.GetCheckinDateTime(),
+                                   CheckOutDate = res.GetCheckOutDateTime(),
+                                   NumberOfNights = res.GetTotalAmountOfDays(),
                                    NumberOfGuests = res.NumberOfAdults + res.NumberOfChildren,
                                    TotalAmount = payment.Amount
                                }).AsNoTracking();

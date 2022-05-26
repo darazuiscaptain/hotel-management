@@ -7,6 +7,7 @@
         public int RoomNumber { get; set; }
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set; }
+        public int NumberOfNights { get; set; }
         public decimal TotalAmount { get; set; }
         public int NumberOfGuests { get; set; }
     }
