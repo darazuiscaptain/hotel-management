@@ -65,10 +65,18 @@ namespace HotelManagementSystem.API.Services
 
             var payment = reservation.Payments.First();
 
-            payment.ReservationId = reservation.ReservationId;
-            payment.GuestId = reservation.GuestId;
+            if(payment == null)
+            {
+                reservation.Payments.Add(new Payment());
+            }
+            
+            if(payment is not null)
+            {
+                payment.ReservationId = reservation.ReservationId;
+                payment.GuestId = reservation.GuestId;
 
-            reservation.Payments.Add(payment);
+                reservation.Payments.Add(payment);
+            }
 
             _context.Reservations.Add(reservation);
             _context.SaveChanges();

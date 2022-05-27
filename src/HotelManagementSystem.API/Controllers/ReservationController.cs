@@ -19,7 +19,7 @@ namespace HotelManagementSystem.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetReservation>>> Get()
+        public async Task<ActionResult<IEnumerable<GetReservation>>> GetReservations()
         {
             try
             {
@@ -28,6 +28,22 @@ namespace HotelManagementSystem.API.Controllers
                 return Ok(reservations);
             }
             catch (Exception ex)
+            {
+                _logger.LogError(ex.ToString());
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("{reservationId}")]
+        public async Task<ActionResult<GetReservation>> GetReservation(Guid reservationId)
+        {
+            try
+            {
+                var reservation = await _reservation.GetReservationById(reservationId);
+
+                return Ok(reservation);
+            }
+            catch(Exception ex)
             {
                 _logger.LogError(ex.ToString());
                 return BadRequest(ex.Message);
