@@ -12,6 +12,6 @@ namespace HotelManagementSystem.API.Models
         public decimal PricePerNight { get; set; }
         public int MaxPersons { get; set; }
 
-        public ICollection<Reservation> Reservations { get; set; } = null!;
+        public ICollection<Reservation>? Reservations { get; set; } = null!;
     }
 }

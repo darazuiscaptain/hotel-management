@@ -1,4 +1,5 @@
 ﻿using HotelManagementSystem.API.DataManager;
+using HotelManagementSystem.API.DTOs;
 using HotelManagementSystem.API.Models;
 using HotelManagementSystem.API.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -13,20 +14,49 @@ namespace HotelManagementSystem.API.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Reservation>> GetAllReservations()
+        public async Task<IEnumerable<GetReservation>> GetAllReservations()
         {
-            var reservations = _context.Reservations;
+            var reservations = (from reservation in _context.Reservations
+                                join guest in _context.Guests on reservation.GuestId equals guest.GuestId
+                                join room in _context.Rooms on reservation.RoomId equals room.RoomId
+                                join payment in _context.Payments on reservation.ReservationId equals payment.ReservationId
+                                select new GetReservation
+                                {
+                                    ReservationId = reservation.ReservationId,
+                                    GuestName = $"{guest.FirstName} {guest.LastName}",
+                                    RoomNumber = room.RoomNumber,
+                                    CheckInDate = reservation.GetCheckinDateTime(),
+                                    CheckOutDate = reservation.GetCheckOutDateTime(),
+                                    NumberOfNights = reservation.GetTotalAmountOfDays(),
+                                    NumberOfGuests = reservation.NumberOfAdults + reservation.NumberOfChildren,
+                                    TotalAmount = reservation.GetTotalAmountOfDays() * room.PricePerNight
+                                }).AsNoTracking();
 
             return await reservations.ToListAsync();
         }
 
-        public async Task<Reservation> GetReservationById(Guid reservationId)
+        public async Task<GetReservation> GetReservationById(Guid reservationId)
         {
-            var reservation = await _context.Reservations.FindAsync(reservationId);
+            var reservation = (from res in _context.Reservations
+                               join guest in _context.Guests on res.GuestId equals guest.GuestId
+                               join room in _context.Rooms on res.RoomId equals room.RoomId
+                               join payment in _context.Payments on res.ReservationId equals payment.ReservationId
+                               where res.ReservationId == reservationId
+                               select new GetReservation
+                               {
+                                   ReservationId = res.ReservationId,
+                                   GuestName = $"{guest.FirstName} {guest.LastName}",
+                                   RoomNumber = room.RoomNumber,
+                                   CheckInDate = res.GetCheckinDateTime(),
+                                   CheckOutDate = res.GetCheckOutDateTime(),
+                                   NumberOfNights = res.GetTotalAmountOfDays(),
+                                   NumberOfGuests = res.NumberOfAdults + res.NumberOfChildren,
+                                   TotalAmount = payment.Amount
+                               }).AsNoTracking();
 
             ArgumentNullException.ThrowIfNull(reservation, nameof(reservation));
 
-            return reservation;
+            return await reservation.FirstAsync();
         }
 
         public Guid CreateReservation(Reservation reservation)
@@ -35,10 +65,18 @@ namespace HotelManagementSystem.API.Services
 
             var payment = reservation.Payments.First();
 
-            payment.ReservationId = reservation.ReservationId;
-            payment.GuestId = reservation.GuestId;
+            if(payment == null)
+            {
+                reservation.Payments.Add(new Payment());
+            }
+            
+            if(payment is not null)
+            {
+                payment.ReservationId = reservation.ReservationId;
+                payment.GuestId = reservation.GuestId;
 
-            reservation.Payments.Add(payment);
+                reservation.Payments.Add(payment);
+            }
 
             _context.Reservations.Add(reservation);
             _context.SaveChanges();

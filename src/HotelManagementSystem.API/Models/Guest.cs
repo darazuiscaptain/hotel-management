@@ -12,7 +12,7 @@ namespace HotelManagementSystem.API.Models
         [Column(TypeName = "varchar(250)")]
         public string Address1 { get; set; } = string.Empty;
         [Column(TypeName = "varchar(250)")]
-        public string Address2 { get; set; } = null!;
+        public string Address2 { get; set; } = string.Empty;
         [Column(TypeName = "varchar(250)")]
         public string Email { get; set; } = string.Empty;
         [Column(TypeName = "varchar(100)")]
@@ -24,7 +24,7 @@ namespace HotelManagementSystem.API.Models
         [Column(TypeName = "varchar(100)")]
         public string DriverLicense { get; set; } = string.Empty;
 
-        public ICollection<Reservation> Reservations { get; set; } = null!;
-        public ICollection<Payment> Payments { get; set; } = null!;
+        public ICollection<Reservation>? Reservations { get; set; }
+        public ICollection<Payment>? Payments { get; set; }
     }
 }

@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
-export class FetchReservations extends Component {
-  static displayName = FetchReservations.name;
+export class FetchReservation extends Component {
+  static displayName = FetchReservation.name;
 
   constructor(props) {
     super(props);
-    this.state = { reservations: [], loading: true };
+    this.state = { reservation: {}, loading: true };
   }
 
   componentDidMount() {
     this.populateReservationData();
   }
 
-    static renderReservationsTable(reservations) {
+    static renderReservationTable(reservation) {
     return (
       <table className='table table-striped' aria-labelledby="tabelLabel">
         <thead>
@@ -28,9 +27,8 @@ export class FetchReservations extends Component {
           </tr>
         </thead>
         <tbody>
-          {reservations.map(reservation =>
-            <tr key={reservation.reservationId}>
-              <td><Link to="/fetch-reservation">{reservation.guestName}</Link></td>
+        <tr key={reservation.reservationId}>
+              <td>{reservation.guestName}</td>
               <td>{reservation.roomNumber}</td>
               <td>{reservation.checkInDate}</td>
               <td>{reservation.checkOutDate}</td>
@@ -38,7 +36,6 @@ export class FetchReservations extends Component {
               <td>{reservation.totalAmount}</td>
               <td>{reservation.numberOfGuests}</td>
             </tr>
-          )}
         </tbody>
       </table>
     );
@@ -47,19 +44,19 @@ export class FetchReservations extends Component {
   render() {
     let contents = this.state.loading
       ? <p><em>Loading...</em></p>
-        : FetchReservations.renderReservationsTable(this.state.reservations);
+        : FetchReservation.renderReservationTable(this.state.reservation);
 
     return (
       <div>
-        <h1 id="tabelLabel" >Reservations</h1>
+        <h1 id="tabelLabel" >Reservation</h1>
         {contents}
       </div>
     );
   }
 
     async populateReservationData() {
-    const response = await fetch('reservation');
+    const response = await fetch('reservation/451FBE59-8EDF-465F-6C97-08DA2FBE6A98');
     const data = await response.json();
-    this.setState({ reservations: data, loading: false });
+    this.setState({ reservation: data, loading: false });
   }
 }
