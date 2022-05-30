@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useRef } from 'react'
+import { useFetch } from './useFetch'
 
-export class FetchReservations extends Component {
-  static displayName = FetchReservations.name;
+ export const FetchReservations = () => {
+  const isComponentMounted = useRef(true);
 
-  constructor(props) {
-    super(props);
-    this.state = { reservations: [], loading: true };
-  }
+  const { data, loading, error } = useFetch(
+    "reservation",
+    isComponentMounted,
+    []
+  );
+  
+  if (loading) return <h1>Loading...</h1>;
 
-  componentDidMount() {
-    this.populateReservationData();
-  }
+  if (error) console.log(error);
 
-    static renderReservationsTable(reservations) {
-    return (
-      <table className='table table-striped' aria-labelledby="tabelLabel">
+  return (
+    <table className='table table-striped' aria-labelledby="tabelLabel">
         <thead>
           <tr>
             <th>Guest Name</th>
@@ -28,38 +28,18 @@ export class FetchReservations extends Component {
           </tr>
         </thead>
         <tbody>
-          {reservations.map(reservation =>
-            <tr key={reservation.reservationId}>
-              <td><Link to="/fetch-reservation">{reservation.guestName}</Link></td>
-              <td>{reservation.roomNumber}</td>
-              <td>{reservation.checkInDate}</td>
-              <td>{reservation.checkOutDate}</td>
-              <td>{reservation.numberOfNights}</td>
-              <td>{reservation.totalAmount}</td>
-              <td>{reservation.numberOfGuests}</td>
+          {data?.map(reservation =>
+            <tr key={reservation?.reservationId}>
+              <td>{reservation?.guestName}</td>
+              <td>{reservation?.roomNumber}</td>
+              <td>{reservation?.checkInDate}</td>
+              <td>{reservation?.checkOutDate}</td>
+              <td>{reservation?.numberOfNights}</td>
+              <td>{reservation?.totalAmount}</td>
+              <td>{reservation?.numberOfGuests}</td>
             </tr>
           )}
         </tbody>
       </table>
-    );
-  }
-
-  render() {
-    let contents = this.state.loading
-      ? <p><em>Loading...</em></p>
-        : FetchReservations.renderReservationsTable(this.state.reservations);
-
-    return (
-      <div>
-        <h1 id="tabelLabel" >Reservations</h1>
-        {contents}
-      </div>
-    );
-  }
-
-    async populateReservationData() {
-    const response = await fetch('reservation');
-    const data = await response.json();
-    this.setState({ reservations: data, loading: false });
-  }
+  )
 }
