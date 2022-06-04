@@ -1,20 +1,21 @@
-import React, { Component } from 'react';
+import React, { useRef } from 'react'
+import { useFetch } from './useFetch'
 
-export class FetchGuests extends Component {
-  static displayName = FetchGuests.name;
+export const FetchGuests = () => {
+  const isComponentMounted = useRef(true);
 
-  constructor(props) {
-    super(props);
-    this.state = { guests: [], loading: true };
-  }
+  const { data, loading, error } = useFetch(
+    "guest",
+    isComponentMounted,
+    []
+  );
 
-  componentDidMount() {
-    this.populateGuestData();
-  }
+  if (loading) return <h1>Loading...</h1>;
 
-    static renderGuestsTable(guests) {
-    return (
-      <table className='table table-striped' aria-labelledby="tabelLabel">
+  if (error) console.log(error);
+  
+  return (
+    <table className='table table-striped' aria-labelledby="tabelLabel">
         <thead>
           <tr>
             <th>First Name</th>
@@ -29,7 +30,7 @@ export class FetchGuests extends Component {
           </tr>
         </thead>
         <tbody>
-          {guests.map(guest =>
+          {data?.map(guest =>
             <tr key={guest.guestId}>
               <td>{guest.firstName}</td>
               <td>{guest.lastName}</td>
@@ -44,25 +45,5 @@ export class FetchGuests extends Component {
           )}
         </tbody>
       </table>
-    );
-  }
-
-  render() {
-    let contents = this.state.loading
-      ? <p><em>Loading...</em></p>
-        : FetchGuests.renderGuestsTable(this.state.guests);
-
-    return (
-      <div>
-        <h1 id="tabelLabel" >Guests</h1>
-        {contents}
-      </div>
-    );
-  }
-
-  async populateGuestData() {
-    const response = await fetch('guest');
-    const data = await response.json();
-      this.setState({ guests: data, loading: false });
-  }
+  )
 }
