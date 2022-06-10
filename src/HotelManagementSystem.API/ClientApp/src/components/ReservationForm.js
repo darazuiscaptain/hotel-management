@@ -1,79 +1,80 @@
-﻿import React, { useState } from 'react';
+﻿import React from 'react';
+import { useForm } from 'react-hook-form'
+import axios from 'axios'
 
 export const ReservationForm = () => {
-    const handleSubmit= (e) => {
-        e.preventDefault();
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        defaultValues: {
+            guestId: "",
+            roomId: "",
+            checkInDate: "",
+            checkOutDate: "",
+            numberOfAdults: "",
+            numberOfChildren: ""
+        }
+    });
+
+    const onSubmit = async (reservation) => {
+        
+        let reserve = {
+            GuestId: reservation.guestId,
+            RoomId: reservation.roomId,
+            CheckInDate: reservation.chekInDate,
+            CheckOutDate: reservation.checkOutDate,
+            NumberOfAdults: reservation.numberOfAdults,
+            NumberOfChildren: reservation.numberOfChildren
+        };
+
+        await axios.post('reservation', JSON.stringify(reserve), {
+            headers: { 'Content-Type': 'application/json' }
+        });
     }
 
-    const [guestId, setGuestId] = useState();
-    const [roomId, setRoomId] = useState();
-    const [checkInDate, setCheckInDate] = useState();
-    const [checkOutDate, setCheckOutDate] = useState();
-    const [numberOfAdults, setNumberOfAdults] = useState();
-    const [numberOfChildren, setNumberOfChildren] = useState();
-
   return (
-    <form onSubmit={e => { handleSubmit(e) }}>
-                <label>
-                    Guest ID:
-                    <input 
-                        name="guestId"
-                        type="text" 
-                        value={guestId}
-                        //checked={this.state.guestId} 
-                        onChange={e => setGuestId(e.target.value)} />
-                </label>
-                <br />
-                <label>
-                    Room ID:
-                    <input
-                        name="roomId"
-                        type="text"
-                        value={roomId}
-                        //checked={this.state.roomId}
-                        onChange={e => setRoomId(e.target.value)} />
-                </label>
-                <br />
-                <label>
-                    Check In Date:
-                    <input
-                        name="checkInDate"
-                        type="text"
-                        value={checkInDate}
-                        //checked={this.state.checkInDate}
-                        onChange={e => setCheckInDate(e.target.value)} />
-                </label>
-                <br />
-                <label>
-                    Check Out Date:
-                    <input
-                        name="checkOutDate"
-                        type="text"
-                        value={checkOutDate}
-                        //checked={this.state.checkOutDate}
-                        onChange={e => setCheckOutDate(e.target.value)} />
-                </label>    
-                <br />
-                <label>
-                    Number Of Adults:
-                    <input
-                        name="numberOfAdults"
-                        type="number"
-                        value={numberOfAdults}
-                        //checked={this.state.numberOfAdults}
-                        onChange={e => setNumberOfAdults(e.target.value)} />
-                </label>
-                <br />
-                <label>
-                    Number Of Children:
-                    <input
-                        name="numberOfChildren"
-                        type="number"
-                        value={numberOfChildren}
-                        //checked={this.state.numberOfChildren}
-                        onChange={e => setNumberOfChildren(e.target.value)} />
-                </label>
-                <input type="submit" value="Submit" />
-            </form>
+    <form onSubmit={handleSubmit(onSubmit)}>
+        <label>
+            Guest ID:
+            <input 
+                {...register("guestId")}
+                placeholder="Guest Id" />
+        </label>
+        <br />
+        <label>
+            Room Id:
+            <input
+                {...register("roomId")}
+                placeholder="Room Id" />
+        </label>
+        <br />
+        <label>
+            Check In Date:
+            <input
+                {...register("checkInDate")}
+                placeholder="Check In Date" />
+        </label>
+        <br />
+        <label>
+            Check Out Date:
+            <input
+                {...register("checkOutDate")}
+                placeholder="Check Out Date" />
+        </label>
+        <br />
+        <label>
+            Number Of Adults:
+            <input
+                {...register("numberOfAdults")}
+                placeholder="Number Of Adults" />
+        </label>
+        <br />
+        <label>
+            Number of Children:
+            <input
+                {...register("numberOfChildren")}
+                placeholder="Number Of Children" />
+        </label>
+        <br />                            
+        <input type="submit" />
+    </form>
   )
 }

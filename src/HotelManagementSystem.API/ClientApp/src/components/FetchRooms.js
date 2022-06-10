@@ -7,7 +7,8 @@ export const FetchRooms = () =>  {
   const { data, loading, error } = useFetch(
     "room",
     isComponentMounted,
-    []
+    [],
+    "GET"
   );
 
   if (loading) return <h1>Loading...</h1>;

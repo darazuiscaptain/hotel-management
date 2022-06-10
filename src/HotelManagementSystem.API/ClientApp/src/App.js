@@ -21,7 +21,7 @@ export default class App extends Component {
         <Route path='/fetch-rooms' component={FetchRooms} />
         <Route path='/fetch-reservations' component={FetchReservations} />
         <Route path='/fetch-guests' component={FetchGuests} />
-        <Route path='/reservation-form' compoenent={ReservationForm} />
+        <Route path='/reservation-form' component={ReservationForm} />
         <Route path='/guest-form' component={GuestForm} />
         <Route path='/fetch-reservation' component={FetchReservation} />
       </Layout>
