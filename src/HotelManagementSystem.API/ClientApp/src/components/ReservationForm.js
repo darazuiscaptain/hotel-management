@@ -1,109 +1,80 @@
-﻿import React, { Component } from 'react';
+﻿import React from 'react';
+import { useForm } from 'react-hook-form'
+import axios from 'axios'
 
-export class ReservationForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-             guestId: "",
-             roomId: "",
-             checkInDate: "",
-             checkOutDate: "",
-             numberOfAdults: "",
-             numberOfChildren: "" 
-        };
+export const ReservationForm = () => {
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        defaultValues: {
+            guestId: "",
+            roomId: "",
+            checkInDate: "",
+            checkOutDate: "",
+            numberOfAdults: "",
+            numberOfChildren: ""
+        }
+    });
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleChange(e) {
-        const target = e.target;
-        const value = target.value;
-        const name = target.name;
-        this.setState({ [name]: value });
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
+    const onSubmit = async (reservation) => {
         
         let reserve = {
-            GuestId: this.state.guestId,
-            RoomId: this.state.roomId,
-            CheckInDate: this.state.checkInDate,
-            CheckOutDate: this.state.checkOutDate,
-            NumberOfAdults: this.state.numberOfAdults,
-            NumberOfChildren: this.state.numberOfChildren
+            GuestId: reservation.guestId,
+            RoomId: reservation.roomId,
+            CheckInDate: reservation.chekInDate,
+            CheckOutDate: reservation.checkOutDate,
+            NumberOfAdults: reservation.numberOfAdults,
+            NumberOfChildren: reservation.numberOfChildren
         };
 
-        fetch('reservation', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(reserve),
-        }).then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.log("Error detected: " + error))
+        await axios.post('reservation', JSON.stringify(reserve), {
+            headers: { 'Content-Type': 'application/json' }
+        });
     }
 
-    render() {
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <label>
-                    Guest ID:
-                    <input 
-                        name="guestId"
-                        type="text" 
-                        checked={this.state.guestId} 
-                        onChange={this.handleChange} />
-                </label>
-                <br />
-                <label>
-                    Room ID:
-                    <input
-                        name="roomId"
-                        type="text"
-                        checked={this.state.roomId}
-                        onChange={this.handleChange} />
-                </label>
-                <br />
-                <label>
-                    Check In Date:
-                    <input
-                        name="checkInDate"
-                        type="text"
-                        checked={this.state.checkInDate}
-                        onChange={this.handleChange} />
-                </label>
-                <br />
-                <label>
-                    Check Out Date:
-                    <input
-                        name="checkOutDate"
-                        type="text"
-                        checked={this.state.checkOutDate}
-                        onChange={this.handleChange} />
-                </label>    
-                <br />
-                <label>
-                    Number Of Adults:
-                    <input
-                        name="numberOfAdults"
-                        type="number"
-                        checked={this.state.numberOfAdults}
-                        onChange={this.handleChange} />
-                </label>
-                <br />
-                <label>
-                    Number Of Children:
-                    <input
-                        name="numberOfChildren"
-                        type="number"
-                        checked={this.state.numberOfChildren}
-                        onChange={this.handleChange} />
-                </label>
-                <input type="submit" value="Submit" />
-            </form>
-        );
-    }
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+        <label>
+            Guest ID:
+            <input 
+                {...register("guestId")}
+                placeholder="Guest Id" />
+        </label>
+        <br />
+        <label>
+            Room Id:
+            <input
+                {...register("roomId")}
+                placeholder="Room Id" />
+        </label>
+        <br />
+        <label>
+            Check In Date:
+            <input
+                {...register("checkInDate")}
+                placeholder="Check In Date" />
+        </label>
+        <br />
+        <label>
+            Check Out Date:
+            <input
+                {...register("checkOutDate")}
+                placeholder="Check Out Date" />
+        </label>
+        <br />
+        <label>
+            Number Of Adults:
+            <input
+                {...register("numberOfAdults")}
+                placeholder="Number Of Adults" />
+        </label>
+        <br />
+        <label>
+            Number of Children:
+            <input
+                {...register("numberOfChildren")}
+                placeholder="Number Of Children" />
+        </label>
+        <br />                            
+        <input type="submit" />
+    </form>
+  )
 }

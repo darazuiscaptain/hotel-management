@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import axios from 'axios'
 
-export class GuestForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+export const GuestForm = () => {
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        defaultValues: {
             firstName: "",
             lastName: "",
             address1: "",
@@ -13,135 +14,87 @@ export class GuestForm extends Component {
             city: "",
             country: "",
             driverLicense: ""
-        };
+        }
+    });
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleChange(e) {
-        const target = e.target;
-        const value = target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
-    }
-
-    handleSubmit(e) {
-        //alert('A name was submitted: ' + this.state.roomId);
-        e.preventDefault();
+    const onSubmit = async (data) => {
         
         let guest = {
-            FirstName: this.state.firstName,
-            LastName: this.state.lastName,
-            Address1: this.state.address1,
-            Address2: this.state.address2,
-            Email: this.state.email,
-            Phone: this.state.phone,
-            City: this.state.city,
-            Country: this.state.country,
-            DriverLicense: this.state.driverLicense
+            FirstName: data.firstName,
+            LastName: data.lastName,
+            Address1: data.address1,
+            Address2: data.address2,
+            Email: data.email,
+            Phone: data.phone,
+            City: data.city,
+            Country: data.country,
+            DriverLicense: data.driverLicense
         };
 
-        fetch('guest', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(guest),
-        }).then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.log("Error detected: " + error))
+        await axios.post('guest', JSON.stringify(guest), {
+            headers: { 'Content-Type': 'application/json' }
+        });
     }
-
-    render() {
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <label>
-                    First Name:
-                    <input 
-                        name="firstName"
-                        type="text"
-                        value={this.state.firstName}
-                        onChange={this.handleChange} />
-                </label>
-                <br />
-                <label>
-                    Last Name:
-                    <input
-                        name="lastName"
-                        type="text"
-                        value={this.state.lastName}
-                        onChange={this.handleChange} />
-                </label>
-                <br />
-                <label>
-                    Address 1:
-                    <input
-                        name="address1"
-                        type="text"
-                        value={this.state.address1}
-                        onChange={this.handleChange} />
-                </label>
-                <br />
-                <label>
-                    Address 2:
-                    <input 
-                        name="address2"
-                        type="text"
-                        value={this.state.address2}
-                        onChange={this.handleChange} />
-                </label>
-                <br />
-                <label>
-                    Email:
-                    <input
-                        name="email"
-                        type="text"
-                        value={this.state.email}
-                        onChange={this.handleChange} />
-                </label>
-                <br />
-                <label>
-                    Phone:
-                    <input
-                        name="phone"
-                        type="text"
-                        value={this.state.phone}
-                        onChange={this.handleChange} />
-                </label>
-                <br />
-                <label>
-                    City:
-                    <input 
-                        name="city"
-                        type="text"
-                        value={this.state.city}
-                        onChange={this.handleChange} />
-                </label>
-                <br />
-                <label>
-                    Country:
-                    <input 
-                        name="country"
-                        type="text"
-                        value={this.state.country}
-                        onChange={this.handleChange} />
-                </label>
-                <br />
-                <label>
-                    Driver License:
-                    <input
-                        name="driverLicense"
-                        type="text"
-                        value={this.state.driverLicense}
-                        onChange={this.handleChange} />
-                </label>
-                <input type="submit" value="Submit" />
-            </form>
-        );
-    }
-
+  
+    return (
+        <form onSubmit={handleSubmit(onSubmit)}>
+        <label>
+            First Name:
+            <input 
+                {...register("firstName")}
+                placeholder="First Name" />
+        </label>
+        <br />
+        <label>
+            Last Name:
+            <input
+                {...register("lastName")}
+                placeholder="Last Name" />
+        </label>
+        <br />
+        <label>
+            Address 1:
+            <input
+                {...register("address1")}
+                placeholder="Address 1" />
+        </label>
+        <br />
+        <label>
+            Address 2:
+            <input
+                {...register("address2")}
+                placeholder="Address 2" />
+        </label>
+        <br />
+        <label>
+            Eamil:
+            <input
+                {...register("email")}
+                placeholder="Email" />
+        </label>
+        <br />
+        <label>
+            Phone:
+            <input
+                {...register("phone")}
+                placeholder="Phone" />
+        </label>
+        <br />
+        <label>
+            City:
+            <input
+                {...register("city")}
+                placeholder="City" />
+        </label>                     
+        <br />
+        <label>
+            Country:
+            <input
+                {...register("country")}
+                placeholder="Country" />
+        </label>       
+        <br />
+        <input type="submit" />
+    </form>
+  )
 }

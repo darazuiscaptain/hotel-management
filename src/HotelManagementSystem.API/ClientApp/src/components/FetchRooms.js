@@ -1,56 +1,38 @@
-import React, { Component } from 'react';
+import React, { useRef } from 'react'
+import { useFetch } from './useFetch'
 
-export class FetchRooms extends Component {
-  static displayName = FetchRooms.name;
+export const FetchRooms = () =>  {
+  const isComponentMounted = useRef(true);
 
-  constructor(props) {
-    super(props);
-    this.state = { rooms: [], loading: true };
-  }
+  const { data, loading, error } = useFetch(
+    "room",
+    isComponentMounted,
+    [],
+    "GET"
+  );
 
-  componentDidMount() {
-    this.populateRoomData();
-  }
+  if (loading) return <h1>Loading...</h1>;
 
-    static renderRoomsTable(rooms) {
-    return (
-      <table className='table table-striped' aria-labelledby="tabelLabel">
-        <thead>
-          <tr>
-            <th>Room Number</th>
-            <th>Price</th>
-            <th>Max Persons</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rooms.map(room =>
-            <tr key={room.roomId}>
-              <td>{room.roomNumber}</td>
-              <td>{room.pricePerNight}</td>
-              <td>{room.maxPersons}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    );
-  }
+  if (error) console.log(error);
 
-  render() {
-    let contents = this.state.loading
-      ? <p><em>Loading...</em></p>
-        : FetchRooms.renderRoomsTable(this.state.rooms);
-
-    return (
-      <div>
-        <h1 id="tabelLabel" >Rooms</h1>
-        {contents}
-      </div>
-    );
-  }
-
-  async populateRoomData() {
-    const response = await fetch('room');
-    const data = await response.json();
-      this.setState({ rooms: data, loading: false });
-  }
+  return (
+    <table className='table table-striped' aria-labelledby="tabelLabel">
+    <thead>
+      <tr>
+        <th>Room Number</th>
+        <th>Price</th>
+        <th>Max Persons</th>
+      </tr>
+    </thead>
+    <tbody>
+      {data?.map(room =>
+        <tr key={room.roomId}>
+          <td>{room.roomNumber}</td>
+          <td>{room.pricePerNight}</td>
+          <td>{room.maxPersons}</td>
+        </tr>
+      )}
+    </tbody>
+  </table>
+  )
 }
