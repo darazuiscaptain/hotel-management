@@ -34,22 +34,22 @@ export class NavMenu extends Component {
                   <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/fetch-rooms">Fetch rooms</NavLink>
+                  <NavLink tag={Link} className="text-dark" to="/fetch-rooms">Rooms</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/fetch-reservations">Fetch reservations</NavLink>
+                  <NavLink tag={Link} className="text-dark" to="/fetch-reservations">Reservations</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/fetch-guests">Fetch guests</NavLink>
+                  <NavLink tag={Link} className="text-dark" to="/fetch-guests">Guests</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/reservation-form">Create Reservation</NavLink>
+                  <NavLink tag={Link} className="text-dark" to="/reservation-form">Book Reservation</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/guest-form">Create Guest</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/fetch-reservation">Fetch reservation</NavLink>
+                  <NavLink tag={Link} className="text-dark" to="/fetch-reservation">Lookup Reservation</NavLink>
                 </NavItem>
               </ul>
             </Collapse>
