@@ -12,8 +12,8 @@ export const GuestForm = () => {
             email: "",
             phone: "",
             city: "",
-            country: "",
-            driverLicense: ""
+            state: "",
+            country: ""
         }
     });
 
@@ -27,8 +27,8 @@ export const GuestForm = () => {
             Email: data.email,
             Phone: data.phone,
             City: data.city,
-            Country: data.country,
-            DriverLicense: data.driverLicense
+            State: data.state,
+            Country: data.country
         };
 
         await axios.post('guest', JSON.stringify(guest), {
@@ -37,64 +37,48 @@ export const GuestForm = () => {
     }
   
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-        <label>
-            First Name:
-            <input 
-                {...register("firstName")}
-                placeholder="First Name" />
-        </label>
-        <br />
-        <label>
-            Last Name:
-            <input
-                {...register("lastName")}
-                placeholder="Last Name" />
-        </label>
-        <br />
-        <label>
-            Address 1:
-            <input
-                {...register("address1")}
-                placeholder="Address 1" />
-        </label>
-        <br />
-        <label>
-            Address 2:
-            <input
-                {...register("address2")}
-                placeholder="Address 2" />
-        </label>
-        <br />
-        <label>
-            Eamil:
-            <input
-                {...register("email")}
-                placeholder="Email" />
-        </label>
-        <br />
-        <label>
-            Phone:
-            <input
-                {...register("phone")}
-                placeholder="Phone" />
-        </label>
-        <br />
-        <label>
-            City:
-            <input
-                {...register("city")}
-                placeholder="City" />
-        </label>                     
-        <br />
-        <label>
-            Country:
-            <input
-                {...register("country")}
-                placeholder="Country" />
-        </label>       
-        <br />
-        <input type="submit" />
-    </form>
+     <form onSubmit={handleSubmit(onSubmit)}>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control" {...register("firstName")} placeholder="First Name" />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="lastName">Last Name</label>
+                <input type="text" class="form-control" {...register("lastName")} placeholder="Last Name" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="address1">Address 1</label>
+            <input type="text" class="form-control" {...register("address1")} placeholder="Address 1" />
+        </div>
+        <div class="form-group">
+            <label for="address2">Address 2</label>
+            <input type="text" class="form-control" {...register("address2")} placeholder="Address 2" />
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" {...register("email")} placeholder="Email" />
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="text" class="form-control" {...register("phone")} placeholder="Phone" />
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="city">City</label>
+                <input type="text" class="form-control" {...register("city")} placeholder="City" />
+            </div>
+            <div class="form-group col-md-4">
+                <label for="state">State</label>
+                <input type="text" class="form-control" {...register("state")} placeholder="State" />
+            </div>
+            <div class="form-group col-md-2">
+                <label for="country">Country</label>
+                <input type="text" class="form-control" {...register("country")} placeholder="Country" />
+            </div>
+        </div>
+            <input type="submit" />
+     </form>
   )
 }

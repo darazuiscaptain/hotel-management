@@ -20,11 +20,11 @@ namespace HotelManagementSystem.API.Models
         [Column(TypeName = "varchar(250)")]
         public string City { get; set; } = string.Empty;
         [Column(TypeName = "varchar(250)")]
+        public string State { get; set; } = string.Empty;
+        [Column(TypeName = "varchar(250)")]
         public string Country { get; set; } = string.Empty;
         [Column(TypeName = "varchar(100)")]
-        public string DriverLicense { get; set; } = string.Empty;
         public DateTime DateCreated { get; set;  } = DateTime.UtcNow;
-
         public ICollection<Reservation>? Reservations { get; set; }
         public ICollection<Payment>? Payments { get; set; }
     }
