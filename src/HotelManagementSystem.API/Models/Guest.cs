@@ -4,7 +4,7 @@ namespace HotelManagementSystem.API.Models
 {
     public class Guest
     {
-        public Guid GuestId { get; set; }
+        public Guid GuestId { get; set; } = new Guid();
         [Column(TypeName = "varchar(250)")]
         public string FirstName { get; set; } = string.Empty;
         [Column(TypeName = "varchar(250)")]
