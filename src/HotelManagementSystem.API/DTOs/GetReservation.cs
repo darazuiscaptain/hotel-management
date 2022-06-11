@@ -3,7 +3,7 @@
     public class GetReservation
     {
         public Guid ReservationId { get; set; }
-        public string GuestName { get; set; }
+        public string GuestName { get; set; } = string.Empty;
         public int RoomNumber { get; set; }
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set; }
