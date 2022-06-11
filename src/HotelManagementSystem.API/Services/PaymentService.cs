@@ -20,6 +20,16 @@ namespace HotelManagementSystem.API.Services
             return await payments.ToListAsync();
         }
 
+        public async Task<IEnumerable<Payment>> GetPaymentsByReservationId(Guid reservationId)
+        {
+            var payments = _context.Payments
+                .Where(i => i.ReservationId == reservationId);
+
+            ArgumentNullException.ThrowIfNull(payments);
+
+            return payments.ToList();
+        }
+
         public async Task<Payment> GetPaymentById(Guid paymentId)
         {
             var payment = await _context.Payments.FindAsync(paymentId);
