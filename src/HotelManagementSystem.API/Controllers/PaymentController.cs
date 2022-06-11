@@ -32,5 +32,21 @@ namespace HotelManagementSystem.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("{reservationId}")]
+        public async Task<ActionResult<IEnumerable<Payment>>> GetPaymentByReservationId(Guid reservationId)
+        {
+            try
+            {
+                var payments = await _payment.GetPaymentsByReservationId(reservationId);
+
+                return Ok(payments);
+            }
+            catch(Exception ex)
+            {
+                _logger?.LogError(ex.ToString());
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

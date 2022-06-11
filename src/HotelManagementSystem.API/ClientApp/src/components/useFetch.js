@@ -15,15 +15,9 @@ export const useFetch = (url, ref, initialValue, method) => {
     if (ref.current) {
       (async () => {
         try {
-          if (method === "POST") {
-            const res = await fetch(url, requestOptions);
-            const resJson = await res.json();
-            setData(resJson);
-          } else {
-            const res = await fetch(url);
-            const resJson = await res.json();
-            setData(resJson);
-          }
+          const res = await fetch(url);
+          const resJson = await res.json();
+          setData(resJson);
         } catch (err) {
           setError(err);
         } finally {

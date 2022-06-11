@@ -10,6 +10,6 @@ namespace HotelManagementSystem.API.Models
         [Precision(19,4)]
         public decimal Amount { get; set; }
         public bool Paid { get; set; }
-        public DateTime PayTime { get; set; }
+        public DateTime PaymentDate { get; set; } = DateTime.UtcNow;
     }
 }
