@@ -1,4 +1,4 @@
-﻿import React from 'react';
+﻿import React, { useState } from 'react';
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 
@@ -13,9 +13,11 @@ export const ReservationForm = () => {
             numberOfChildren: ""
         }
     });
+    const [isLoading, setIsLoading] = useState(false);
 
     const onSubmit = async (reservation) => {
-        
+        setIsLoading(true);
+
         let reserve = {
             GuestId: reservation.guestId,
             RoomId: reservation.roomId,
@@ -28,16 +30,20 @@ export const ReservationForm = () => {
         await axios.post('reservation', JSON.stringify(reserve), {
             headers: { 'Content-Type': 'application/json' }
         });
+
+        setIsLoading(false);
     }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-        <label>
-            Guest ID:
-            <input 
-                {...register("guestId")}
-                placeholder="Guest Id" />
-        </label>
+        <div class="form-group">
+            <label>
+                Guest ID:
+                <input 
+                    {...register("guestId")}
+                    placeholder="Guest Id" />
+            </label>
+        </div>
         <br />
         <label>
             Room Id:
@@ -74,7 +80,7 @@ export const ReservationForm = () => {
                 placeholder="Number Of Children" />
         </label>
         <br />                            
-        <input type="submit" />
+        <input type="submit" disabled={isLoading} />
     </form>
   )
 }

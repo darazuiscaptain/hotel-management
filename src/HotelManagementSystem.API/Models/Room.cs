@@ -4,7 +4,7 @@ namespace HotelManagementSystem.API.Models
 {
     public class Room
     {
-        public Guid RoomId { get; set; }
+        public Guid RoomId { get; set; } = new Guid();
         public Guid RoomTypeId { get; set; }
         public Guid RoomStatusId { get; set; }
         public int RoomNumber { get; set; }

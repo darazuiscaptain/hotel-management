@@ -7,8 +7,7 @@ import { useFetch } from './useFetch'
   const { data, loading, error } = useFetch(
     "reservation",
     isComponentMounted,
-    [],
-    "GET"
+    []
   );
   
   if (loading) return <h1>Loading...</h1>;
